@@ -129,7 +129,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         tableView.reloadData()
     }
     
- 
     // カテゴリの検索開始
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // searchBar.endEditing(true)
@@ -146,20 +145,27 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         // Memo : filter("category CONTAINS '\(searchText)'")       部分一致検索
         
         
-        // categoryの検索結果数
-        let count = result.count
+        // Memo : 検索対象が無い場合に全てのタスクを表示したい場合は下記のコードを有効にする
+        //categoryの検索結果数
+        //let count = result.count
+        //if (count == 0) {
+        //    taskArray = realm.objects(Task.self)    // 検索対象が無い場合は全てのタスクを表示
+        //} else {
+        //    taskArray = result                      // 条件に合ったタスクを表示
+        //}
         
-        
-        if (count == 0) {
-            taskArray = realm.objects(Task.self)    // 検索対象が無い場合は全てのタスクを表示
-        } else {
-            taskArray = result                      // 条件に合ったタスクを表示
-        }
+        // 検索結果のタスクをタスクリストに格納
+        taskArray = result
         
         // TableViewの更新
         tableView.reloadData()
     }
     
+    // キャンセルボタンを押した時は全タスクを表示します
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        taskArray = realm.objects(Task.self)
+        tableView.reloadData()
+    }
 
     
 }
